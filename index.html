@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUXAR — A administrativa de IA que não dorme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/tabler-icons.min.css">
+<style>
+  :root{ --navy:#17181A; --navy2:#1e2023; --gold:#9A7B4F; --gold2:#b9945f; --ivory:#F4F0E8; --muted:#b0a894; --line:#2c2d30; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',-apple-system,sans-serif;background:var(--navy);color:var(--ivory);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .serif{font-family:'EB Garamond',Georgia,serif}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  .eyebrow{color:var(--gold);font-size:12px;letter-spacing:4px;text-transform:uppercase;font-weight:500}
+  a{color:inherit;text-decoration:none}
+  .btn{display:inline-block;background:var(--gold);color:var(--navy);font-weight:600;font-size:15px;padding:14px 30px;border-radius:6px;transition:.2s;border:1px solid var(--gold)}
+  .btn:hover{background:transparent;color:var(--gold)}
+  .btn-ghost{background:transparent;color:var(--ivory);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* NAV */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0}
+  .logo{font-family:'EB Garamond',serif;font-size:24px;letter-spacing:8px;color:var(--ivory)}
+
+  /* HERO */
+  .hero{text-align:center;padding:56px 0 40px}
+  .hero h1{font-size:clamp(38px,6vw,68px);font-weight:500;line-height:1.08;margin:18px 0 20px}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero p{font-size:clamp(16px,2.2vw,20px);color:var(--muted);max-width:640px;margin:0 auto 30px}
+  .channels{display:flex;gap:18px;justify-content:center;margin-top:34px;color:var(--muted);font-size:22px;align-items:center;flex-wrap:wrap}
+  .channels span{font-size:12px;letter-spacing:2px;text-transform:uppercase}
+  .channels i{color:var(--ivory);opacity:.85}
+
+  /* DEMO */
+  .demo-sec{padding:60px 0 30px;text-align:center}
+  .demo-sec h2{font-size:clamp(28px,4vw,42px);font-weight:500;margin:12px 0 8px}
+  .demo-sec .sub{color:var(--muted);margin-bottom:36px}
+  .stage{display:flex;gap:22px;align-items:flex-start;justify-content:center;flex-wrap:wrap;text-align:left}
+  .now{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);border:1px solid var(--line);padding:6px 15px;border-radius:20px;margin-bottom:14px}
+  .phone{width:360px;max-width:92vw;border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 70px rgba(0,0,0,.5)}
+  .phdr{display:flex;align-items:center;gap:11px;padding:12px 16px;background:#128C7E}
+  .av{width:38px;height:38px;border-radius:50%;background:var(--ivory);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'EB Garamond',serif;font-size:15px}
+  .pn{font-weight:600;font-size:15px;color:#fff}.ps{font-size:12px;color:rgba(255,255,255,.85)}
+  .chat{padding:16px;min-height:320px;display:flex;flex-direction:column;gap:9px;background:#EFEAE2}
+  .row{display:flex;opacity:0;transform:translateY(8px);transition:.4s}.row.in{opacity:1;transform:none}
+  .row.me{justify-content:flex-end}.bub{max-width:82%;padding:9px 13px;font-size:14px;line-height:1.5;border-radius:13px}
+  .typ{display:flex;gap:5px;padding:11px 14px;border-radius:13px}.typ span{width:6px;height:6px;border-radius:50%;animation:blink 1.2s infinite}
+  .typ span:nth-child(2){animation-delay:.2s}.typ span:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+  .cal{width:360px;max-width:92vw;background:#fff;border-radius:16px;padding:16px;color:#1c1c1c}
+  .calh{display:flex;align-items:center;gap:7px;margin-bottom:12px;font-size:14px;font-weight:600;color:#1c1c1c}.calh .w{margin-left:auto;font-size:11.5px;color:#999;font-weight:400}
+  .grid{display:flex}.gut{width:34px;flex-shrink:0}.gut .sp{height:22px}.gut .hr{height:30px;font-size:10px;color:#aaa;text-align:right;padding-right:5px}
+  .days{flex:1;display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
+  .dh{height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#666}.dh.today{background:#eaf1ff;color:#1a56c4;border-radius:6px;font-weight:600}
+  .col{position:relative;height:270px;border-left:1px solid #eee;background:repeating-linear-gradient(to bottom,#f0f0f0 0,#f0f0f0 1px,transparent 1px,transparent 30px)}
+  .ev{position:absolute;left:2px;right:2px;border-radius:5px;padding:3px 6px;overflow:hidden;opacity:0;transform:scale(.9);transition:.4s;line-height:1.2}
+  .ev.in{opacity:1;transform:none}.ev .t1{font-size:10.5px;font-weight:600}.ev .t2{font-size:9.5px;opacity:.85}
+
+  /* FEATURES */
+  .features{padding:70px 0}
+  .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;margin-top:40px}
+  .fcard{border:1px solid var(--line);border-radius:14px;padding:26px 24px;background:var(--navy2)}
+  .fcard i{font-size:26px;color:var(--gold)}
+  .fcard h3{font-size:18px;font-weight:600;margin:14px 0 8px;color:var(--ivory)}
+  .fcard p{color:var(--muted);font-size:14.5px}
+  .center{text-align:center}
+  .sec-title{font-size:clamp(28px,4vw,40px);font-weight:500}
+
+  /* PRICING */
+  .pricing{padding:60px 0}
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:40px;max-width:760px;margin-left:auto;margin-right:auto}
+  .pcard{border:1px solid var(--line);border-radius:16px;padding:34px 30px;text-align:center;background:var(--navy2)}
+  .pcard.featured{border-color:var(--gold)}
+  .ptag{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600}
+  .price{font-family:'EB Garamond',serif;font-size:52px;color:var(--ivory);margin:12px 0 2px}.price span{font-size:18px;color:var(--muted)}
+  .pcard .small{color:var(--muted);font-size:14px;margin-bottom:4px}
+  .badge{display:inline-block;background:rgba(154,123,79,.15);color:var(--gold);font-size:12px;padding:5px 12px;border-radius:20px;margin-top:14px}
+  .guarantee{text-align:center;color:var(--muted);font-size:13.5px;margin-top:26px}
+
+  /* CTA */
+  .ctaband{text-align:center;padding:70px 0}
+  .ctaband h2{font-size:clamp(30px,4.5vw,46px);font-weight:500;margin-bottom:14px}
+  .ctaband p{color:var(--muted);margin-bottom:28px}
+
+  footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--muted);font-size:13px}
+  .rule{width:44px;height:1px;background:var(--gold);margin:0 auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <div class="logo" style="display:flex;align-items:center;gap:11px"><svg width="28" height="28" viewBox="0 0 100 100" style="flex-shrink:0"><circle cx="50" cy="49" r="30" fill="none" stroke="#9A7B4F" stroke-width="3.5"/><line x1="24" y1="56" x2="76" y2="56" stroke="#9A7B4F" stroke-width="3.5" stroke-linecap="round"/><circle cx="50" cy="56" r="8.5" fill="#9A7B4F"/></svg><span>LUXAR</span></div>
+    <a href="https://wa.me/351968800946" class="btn btn-ghost">Falar connosco</a>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <svg width="58" height="58" viewBox="0 0 100 100" style="margin-bottom:16px"><circle cx="50" cy="49" r="30" fill="none" stroke="#9A7B4F" stroke-width="3"/><line x1="24" y1="56" x2="76" y2="56" stroke="#9A7B4F" stroke-width="3" stroke-linecap="round"/><circle cx="50" cy="56" r="8.5" fill="#9A7B4F"/></svg>
+    <div class="eyebrow">Inteligência Imobiliária</div>
+    <h1 class="serif">A administrativa de IA<br>que <em>não dorme</em></h1>
+    <p>Capta, qualifica e marca visitas em segundos — WhatsApp, Instagram, Facebook e email. 24 horas por dia, 7 dias por semana. Tu só chegas para fechar.</p>
+    <a href="https://wa.me/351968800946" class="btn">Quero ser dos primeiros</a>
+  </header>
+
+  <!-- DEMO -->
+  <section class="demo-sec">
+    <div class="eyebrow">Vê-a a trabalhar</div>
+    <h2 class="serif">O mesmo assistente, em qualquer canal.</h2>
+    <div class="sub" id="now">A responder agora — WhatsApp · João M.</div>
+    <div class="stage">
+      <div class="phone">
+        <div class="phdr" id="phdr"><div class="av" id="av">JM</div><div style="flex:1"><div class="pn" id="pname">João M.</div><div class="ps" id="status">online · WhatsApp</div></div><i id="chIcon" class="ti ti-brand-whatsapp" style="color:#fff;font-size:20px"></i></div>
+        <div id="phone" style="background:#EFEAE2"><div class="chat" id="chat"></div></div>
+      </div>
+      <div class="cal">
+        <div class="calh"><i class="ti ti-calendar-event"></i> Agenda do consultor <span class="w">esta semana</span></div>
+        <div class="grid">
+          <div class="gut"><div class="sp"></div><div id="gutter"></div></div>
+          <div class="days">
+            <div><div class="dh">Seg</div><div class="col"></div></div>
+            <div><div class="dh">Ter</div><div class="col"></div></div>
+            <div><div class="dh">Qua</div><div class="col"></div></div>
+            <div><div class="dh">Qui</div><div class="col" id="colQui"></div></div>
+            <div><div class="dh">Sex</div><div class="col" id="colSex"></div></div>
+            <div><div class="dh today">Sáb</div><div class="col" id="colSab"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="center"><div class="eyebrow">O que faz por ti</div><h2 class="serif sec-title">Como uma assistente de topo — sem ordenado.</h2></div>
+    <div class="fgrid">
+      <div class="fcard"><i class="ti ti-bolt"></i><h3>Responde em segundos</h3><p>24/7, no canal por onde a lead entrar. Nunca mais perdes um negócio por responderes tarde.</p></div>
+      <div class="fcard"><i class="ti ti-calendar-check"></i><h3>Qualifica e agenda</h3><p>Filtra curiosos — zona, orçamento, crédito — propõe horários e marca a visita no teu calendário.</p></div>
+      <div class="fcard"><i class="ti ti-refresh"></i><h3>Reativa leads frias</h3><p>Faz o seguimento sozinha e recupera comissões que estavas a perder.</p></div>
+      <div class="fcard"><i class="ti ti-user-check"></i><h3>Todos os canais, tu no controlo</h3><p>WhatsApp, Instagram, Facebook e email numa só assistente. Ela prepara; tu só chegas para fechar.</p></div>
+      <div class="fcard"><i class="ti ti-calculator"></i><h3>Simula os custos na hora</h3><p>Calcula prestação mensal, IMT, imposto de selo, escritura e o total à cabeça. A lead percebe logo se a casa cabe no orçamento.</p></div>
+      <div class="fcard"><i class="ti ti-file-description"></i><h3>Esclarece a burocracia</h3><p>Tira dúvidas de CPCV, escritura e documentos — para comprador e vendedor. Menos chamadas repetidas para ti.</p></div>
+      <div class="fcard"><i class="ti ti-language"></i><h3>Responde em português, inglês e francês</h3><p>Responde a compradores estrangeiros em inglês e francês, sem perderes o negócio por causa da língua.</p></div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="precos">
+    <div class="center"><div class="eyebrow">Investimento</div><h2 class="serif sec-title">Escolhe o teu plano.</h2></div>
+    <div class="pgrid">
+      <div class="pcard featured">
+        <div class="ptag">Consultor individual</div>
+        <div class="price">€49<span> / mês</span></div>
+        <div class="small">+ setup €100</div>
+        <div class="badge">Uma assistente dedicada, 24/7</div>
+      </div>
+      <div class="pcard">
+        <div class="ptag">Agência · até 5</div>
+        <div class="price">€149<span> / mês</span></div>
+        <div class="small">+ setup €200</div>
+        <div class="badge">5 consultores, uma só assistente</div>
+      </div>
+    </div>
+    <div class="guarantee">Garantia 30 dias · sem fidelização · para individuais e agências</div>
+  </section>
+
+  <!-- CTA -->
+  <section class="ctaband" id="contacto">
+    <div class="rule"></div>
+    <h2 class="serif" style="margin-top:22px">Nunca mais percas uma lead.</h2>
+    <p>Estamos a abrir os primeiros lugares. Queres ser dos primeiros?</p>
+    <a href="https://wa.me/351968800946" class="btn">Quero a LUXAR no meu WhatsApp</a>
+  </section>
+
+  <footer>
+    <div class="logo" style="font-size:18px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:9px"><svg width="22" height="22" viewBox="0 0 100 100"><circle cx="50" cy="49" r="30" fill="none" stroke="#9A7B4F" stroke-width="4"/><line x1="24" y1="56" x2="76" y2="56" stroke="#9A7B4F" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="56" r="9" fill="#9A7B4F"/></svg><span>LUXAR</span></div>
+    Inteligência Imobiliária · geral@luxar.pt
+  </footer>
+
+</div>
+
+<script>
+  var chat=document.getElementById('chat'),phone=document.getElementById('phone'),phdr=document.getElementById('phdr'),av=document.getElementById('av'),pname=document.getElementById('pname'),status=document.getElementById('status'),chIcon=document.getElementById('chIcon'),now=document.getElementById('now');
+  var ROW=30,START=10,HOURS=9,g=document.getElementById('gutter');
+  for(var h=0;h<HOURS;h++){var d=document.createElement('div');d.className='hr';d.textContent=(START+h)+'h';g.appendChild(d);}
+  function mkEv(col,hour,tint,bd,tx,name,det){var e=document.createElement('div');e.className='ev';e.style.top=((hour-START)*ROW)+'px';e.style.height=(ROW-3)+'px';e.style.background=tint;e.style.borderLeft='3px solid '+bd;e.style.color=tx;e.innerHTML='<div class="t1">'+hour+'h · '+name+'</div><div class="t2">'+det+'</div>';document.getElementById(col).appendChild(e);return e;}
+  var evts=[mkEv('colSab',11,'#E1F5EE','#25D366','#0F6E56','João M.','Visita T3 · Alvalade'),mkEv('colQui',18,'#FBEAF0','#C13584','#72243E','Sofia R.','Visita · Areeiro'),mkEv('colSab',10,'#E6F1FB','#1877F2','#0C447C','Miguel A.','Visita T2'),mkEv('colSex',17,'#F1EFE8','#444441','#2C2C2A','Ricardo P.','Visita T3 · Benfica')];
+  var scenes=[
+    {ch:'WhatsApp',hdr:'#128C7E',cbg:'#EFEAE2',avb:'#F4F0E8',avt:'#9A7B4F',av:'JM',name:'João M.',st:'online · WhatsApp',ic:'ti-brand-whatsapp',ob:'#DCF8C6',ot:'#123c1a',ib:'#fff',it:'#1f1f1f',dot:'#5a8a63',
+     m:[[0,"Boa tarde! Procuro um T3 em Lisboa para a família. Podem ajudar?"],[1,"Com todo o gosto. Que zona prefere e qual o orçamento? Já tem pré-aprovação?"],[0,"Alvalade ou Areeiro, até 450 mil, e já com pré-aprovação."],[1,"Perfeito. Reservo-lhe uma visita para sábado às 11h00. O consultor confirma."]]},
+    {ch:'Instagram',hdr:'#C13584',cbg:'#fff',avb:'#FBEAF0',avt:'#72243E',av:'SR',name:'Sofia R.',st:'Instagram · Direct',ic:'ti-brand-instagram',ob:'#C13584',ot:'#fff',ib:'#efefef',it:'#222',dot:'#e2b4d0',
+     m:[[1,"Olá Sofia! Há uns dias mostrou interesse. Continua à procura de casa?"],[0,"Olá! Sim, ainda estou interessada, em Areeiro."],[1,"Ótimo. Reservo-lhe uma visita para quinta às 18h00. Fica bem?"]]},
+    {ch:'Facebook',hdr:'#1877F2',cbg:'#fff',avb:'#E6F1FB',avt:'#0C447C',av:'MA',name:'Miguel A.',st:'Facebook · Messenger',ic:'ti-brand-facebook',ob:'#0084FF',ot:'#fff',ib:'#e4e6eb',it:'#222',dot:'#8fbdf2',
+     m:[[0,"Boa noite! Qual é o preço do T2 do anúncio?"],[1,"Boa noite! Está por 285.000€. Quer visitar? Tenho sábado às 10h00."],[0,"Sábado às 10h era ótimo."],[1,"Combinado! Fica reservado e o consultor confirma."]]},
+    {ch:'Email',hdr:'#444441',cbg:'#fff',avb:'#F1EFE8',avt:'#444441',av:'RP',name:'Ricardo P.',st:'Email · T3 Benfica',ic:'ti-mail',ob:'#EDEBF0',ot:'#26215C',ib:'#f3f2ef',it:'#222',dot:'#a8a4c0',
+     m:[[0,"Bom dia, vi no site o T3 em Benfica. Ainda está disponível?"],[1,"Bom dia! Está disponível. Tenho visita na sexta às 17h00. Confirmo por email."]]}
+  ];
+  var timers=[];
+  function setCh(s){phdr.style.background=s.hdr;phone.style.background=s.cbg;av.style.background=s.avb;av.style.color=s.avt;av.textContent=s.av;pname.textContent=s.name;status.textContent=s.st;chIcon.className='ti '+s.ic;now.textContent='A responder agora — '+s.ch+' · '+s.name;}
+  function bub(s,o,t){var r=document.createElement('div');r.className='row '+(o?'me':'you');var b=document.createElement('div');b.className='bub';b.style.cssText=(o?'background:'+s.ob+';color:'+s.ot+';border-bottom-right-radius:3px':'background:'+s.ib+';color:'+s.it+';border-bottom-left-radius:3px');b.textContent=t;r.appendChild(b);chat.appendChild(r);requestAnimationFrame(function(){r.classList.add('in')});}
+  function typ(s){var r=document.createElement('div');r.className='row me in';r.id='typing';var b=document.createElement('div');b.className='typ';b.style.background=s.ob;for(var i=0;i<3;i++){var d=document.createElement('span');d.style.background=s.dot;b.appendChild(d);}r.appendChild(b);chat.appendChild(r);}
+  function untyp(){var t=document.getElementById('typing');if(t)t.remove();}
+  function play(s,st){var t=st;timers.push(setTimeout(function(){setCh(s);chat.innerHTML='';},t));t+=600;
+    s.m.forEach(function(m){if(m[0]){timers.push(setTimeout(function(){status.textContent='a escrever…';typ(s);},t));t+=1200;timers.push(setTimeout(function(){untyp();status.textContent=s.st;bub(s,1,m[1]);},t));t+=1000;}else{timers.push(setTimeout(function(){bub(s,0,m[1]);},t));t+=1200;}});return t+300;}
+  function run(){timers.forEach(clearTimeout);timers=[];chat.innerHTML='';evts.forEach(function(e){e.classList.remove('in')});
+    var t=400;for(var i=0;i<scenes.length;i++){(function(idx){t=play(scenes[idx],t);timers.push(setTimeout(function(){evts[idx].classList.add('in')},t));t+=1200;})(i);}
+    timers.push(setTimeout(run,t+2500));}
+  run();
+</script>
+</body>
+</html>
